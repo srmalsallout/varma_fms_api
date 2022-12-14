@@ -43,7 +43,7 @@ const getDevice = async (req, res, next) => {
     }
 }
 
-//update
+
 const updateDevice = async (req, res, next) => {
     try {
         const { deviceId } = req.params;
