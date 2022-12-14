@@ -9,7 +9,7 @@ const schema = new mongoose.Schema({
     },
     UserID: {
         type: mongoose.Types.ObjectId,
-        ref: 'uesr',
+        ref: 'user',
         required: true
     },
     DeviceID: {

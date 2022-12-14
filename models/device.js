@@ -19,7 +19,12 @@ const schema = new mongoose.Schema({
         type: Number,
         required: true,
         default: 5455
-    }
+    },
+    UserID: {
+        type: mongoose.Types.ObjectId,
+        ref: 'user',
+        required: true
+    },
 }, { timestamps: true })
 
-module.exports = mongoose.model('driver', schema)
+module.exports = mongoose.model('device', schema)

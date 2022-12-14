@@ -17,7 +17,7 @@ const schema = new mongoose.Schema({
     },
     ParentID: {
         type: mongoose.Types.ObjectId,
-        ref: 'uesr',
+        ref: 'user',
         required: true
     },
     VehicleID: {

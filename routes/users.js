@@ -3,7 +3,7 @@ const { isAuthenticated } = require("../middlewares/auth")
 const {
     signUp,
     login
-} = require("../controllers/user")
+} = require("../controllers/userController")
 
 router.post('/', signUp)
 router.post('/login', login)

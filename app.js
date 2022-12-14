@@ -2,14 +2,17 @@ require("dotenv").config();
 require("./db/connect");
 const express = require("express")
 const app = express()
-const users = require("./routes/user")
+const users = require("./routes/users")
+const devices = require("./routes/devices")
+
 const { errorHandler } = require("./middlewares/error")
 
 app.use(express.json())
-app.use("/users", users)
+app.use("/api/users", users)
+app.use("/api/devices", devices)
 app.use(errorHandler)
 app.get("/", (req, res) => {
-    res.send('<h1>Varma Track</h1>')
+    res.send('<h1> Varma Attack</h1>')
 })
 app.listen(8888)
 // const model = require("./models/device")
