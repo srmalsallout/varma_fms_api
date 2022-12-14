@@ -4,6 +4,7 @@ const express = require("express")
 const app = express()
 const users = require("./routes/users")
 const devices = require("./routes/devices")
+const vehicles = require("./routes/vehicle")
 
 const { errorHandler } = require("./middlewares/error")
 const PORT = process.env.PORT || 8000
@@ -11,6 +12,7 @@ const PORT = process.env.PORT || 8000
 app.use(express.json())
 app.use("/api/users", users)
 app.use("/api/devices", devices)
+app.use("/api/vehicles", vehicles)
 app.use(errorHandler)
 app.get("/", (req, res) => {
     res.send('<h1> Varma Attack</h1>')

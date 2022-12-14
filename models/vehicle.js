@@ -44,7 +44,7 @@ const schema = new mongoose.Schema({
         default: null
     },
     ManufactureYear: {
-        type: Date,
+        type: Number,
         default: null
     },
     FuelType: {
