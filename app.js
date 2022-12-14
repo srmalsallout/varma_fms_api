@@ -6,6 +6,7 @@ const users = require("./routes/users")
 const devices = require("./routes/devices")
 
 const { errorHandler } = require("./middlewares/error")
+const PORT = process.env.PORT || 8888
 
 app.use(express.json())
 app.use("/api/users", users)
@@ -14,7 +15,7 @@ app.use(errorHandler)
 app.get("/", (req, res) => {
     res.send('<h1> Varma Attack</h1>')
 })
-app.listen(8888)
+app.listen(PORT, () => console.log(`running on port ${PORT}`))
 // const model = require("./models/device")
 // model.create({
 //     VehicleID: 123,
