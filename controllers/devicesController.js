@@ -8,7 +8,7 @@ const addDevice = async (req, res) => {
         if (device) { return res.status(200).send({ message: "device created successfully", device }) }
         else { return next(new CustomError('Error while create a device', 500)) }
     } catch (error) {
-        next(new CustomError(error.message, error.status))
+        next(new CustomError(error.message, error.status || 500))
     }
 }
 
@@ -21,7 +21,7 @@ const getDevice = async (req, res) => {
         if (device) { return res.status(200).send({ device }) }
         else { return next(new CustomError('Error while get a device', 404)) }
     } catch (error) {
-        next(new CustomError(error.message, error.status))
+        next(new CustomError(error.message, error.status || 500))
     }
 }
 
@@ -35,7 +35,7 @@ const updateDevice = async (req, res) => {
         if (device) { return res.status(200).send({ message: "device updated successfully", device }) }
         else { return next(new CustomError('Error while updating a device', 400)) }
     } catch (error) {
-        next(new CustomError(error.message, error.status))
+        next(new CustomError(error.message, error.status || 500))
     }
 }
 
@@ -48,7 +48,7 @@ const deleteDevice = async (req, res) => {
         if (device) { return res.status(200).send({ message: "device deleted successfully" }) }
         else { return next(new CustomError('Error while deleting a device', 400)) }
     } catch (error) {
-        next(new CustomError(error.message, error.status))
+        next(new CustomError(error.message, error.status || 500))
     }
 }
 
