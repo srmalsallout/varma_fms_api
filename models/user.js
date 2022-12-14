@@ -75,7 +75,6 @@ schema.pre('save', async function (next) {
     next()
 })
 
-
 schema.methods.toJSON = function () {
     const data = this.toObject();
     delete data.Password;
