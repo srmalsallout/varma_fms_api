@@ -6,7 +6,7 @@ const users = require("./routes/users")
 const devices = require("./routes/devices")
 
 const { errorHandler } = require("./middlewares/error")
-const PORT = process.env.PORT || 80000
+const PORT = process.env.PORT || 8000
 
 app.use(express.json())
 app.use("/api/users", users)
