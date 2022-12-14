@@ -1,4 +1,9 @@
 const mongoose = require("mongoose")
+const { hash } = require("bcryptjs")
+const { sign } = require("jsonwebtoken")
+const { isMobilePhone, isEmail } = require("validator")
+const { CustomError } = require("../utils/errors")
+
 
 const schema = new mongoose.Schema({
     UserName: {
@@ -13,9 +18,13 @@ const schema = new mongoose.Schema({
     Image: mongoose.Schema.Types.Mixed,
     PhoneNumber: {
         type: String,
-        unique: true,
         required: true,
-        minlength: 11
+        unique: true,
+        validate(value) {
+            if (!isMobilePhone(value, ["ar-EG"])) {
+                throw new Error("Please Enter a Correct Phone Number");
+            }
+        },
     },
     Country: {
         type: String,
@@ -29,7 +38,12 @@ const schema = new mongoose.Schema({
     Email: {
         type: String,
         unique: true,
-        required: true
+        required: true,
+        validate(value) {
+            if (!isEmail(value)) {
+                throw new Error("Please Enter a Correct Email");
+            }
+        }
     },
     Role: {
         type: String,
@@ -55,5 +69,17 @@ const schema = new mongoose.Schema({
         enum: ['pending', 'verified']
     }
 }, { timestamps: true })
+
+schema.pre('save', async function (next) {
+    this.Password = await hash(this.Password, 10)
+    next()
+})
+
+schema.methods.generateToken = function () {
+    return sign({
+        id: this._id,
+        role: this.Role
+    }, process.env.JWT_SECRET)
+}
 
 module.exports = mongoose.model('user', schema)
