@@ -2,7 +2,6 @@ const mongoose = require("mongoose")
 const { hash } = require("bcryptjs")
 const { sign } = require("jsonwebtoken")
 const { isMobilePhone, isEmail } = require("validator")
-const { CustomError } = require("../utils/errors")
 
 
 const schema = new mongoose.Schema({
