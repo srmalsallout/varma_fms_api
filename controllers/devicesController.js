@@ -58,7 +58,6 @@ const updateDevice = async (req, res, next) => {
         next(error)
     }
 }
-//update
 const deleteDevice = async (req, res, next) => {
     try {
         const { deviceId } = req.params;
