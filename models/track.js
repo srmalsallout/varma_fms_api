@@ -16,11 +16,11 @@ const schema = new mongoose.Schema({
         required: true
     },
     Latitude: {
-        type: String,
+        type: Number,
         required: true
     },
     Longitude: {
-        type: String,
+        type: Number,
         required: true
     },
     Address: {
