@@ -70,4 +70,39 @@ const deleteDevice = async (req, res, next) => {
     }
 }
 
-module.exports = { addDevice, getDevice, updateDevice, deleteDevice }
+
+const getAllDevices = async (req, res, next) => {
+    try {
+        const { user_id } = req;
+
+        let agg = [
+            {
+                $match: { UserID: ObjectId(user_id) }
+            },
+            {
+                $lookup: {
+                    from: 'tracks',
+                    localField: '_id',
+                    foreignField: 'DeviceId',
+                    as: 'track',
+                }
+            },
+            {
+                "$addFields": {
+                    "location": {
+                        "$arrayElemAt": ["$track", 0]
+                    }
+                }
+            },
+            {
+                $project: { "track": 0, "__v": 0 }
+            }
+        ]
+        const allDevices = await Device.aggregate(agg);
+        return res.send({ allDevices })
+    } catch (error) {
+        next(error)
+    }
+}
+
+module.exports = { addDevice, getDevice, updateDevice, deleteDevice, getAllDevices }

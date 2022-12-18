@@ -4,6 +4,6 @@ const {
     getAllAlerts
 } = require("../controllers/alerts")
 
-router.get('/:DeviceId', isAuthenticated, getAllAlerts)
+router.get('/', isAuthenticated, getAllAlerts)
 
 module.exports = router

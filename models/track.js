@@ -26,7 +26,12 @@ const schema = new mongoose.Schema({
     Address: {
         type: String,
         required: true
+    },
+    Battery: {
+        type: Number,
+        required: true
     }
+
 })
 
 module.exports = mongoose.model('track', schema)
