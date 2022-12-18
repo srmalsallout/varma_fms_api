@@ -3,12 +3,17 @@ const Track = require("../models/track")
 const {
     ObjectId
 } = require('mongoose').Types;
+const { extractUrl } = require("../helpers/deviceHelper")
 
 const addDevice = async (req, res, next) => {
     try {
         const { DeviceName, SerialNumber, Status, Port } = req.body;
         const { user_id } = req;
-        const device = await Device.create({ DeviceName, SerialNumber, Status, Port, UserID: user_id });
+        let Image = ''
+        if (req.file) {
+            Image = await extractUrl(req.file, "varmaDevices");
+        }
+        const device = await Device.create({ DeviceName, SerialNumber, Status, Port, UserID: user_id, Image });
         if (device) { return res.status(200).send({ message: "device created successfully", device }) }
         else { return next(new CustomError('Error while create a device', 500)) }
     } catch (error) {

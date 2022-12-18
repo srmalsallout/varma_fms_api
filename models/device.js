@@ -25,6 +25,9 @@ const schema = new mongoose.Schema({
         ref: 'user',
         required: true
     },
+    Image: {
+        type: String,
+    },
 }, { timestamps: true })
 
 module.exports = mongoose.model('device', schema)
