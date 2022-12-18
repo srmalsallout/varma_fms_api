@@ -1,17 +1,21 @@
 
 const Alert = require("../models/alerts")
-
+const Device = require("../models/device")
+const {
+    ObjectId
+} = require('mongoose').Types;
 const getAllAlerts = async (req, res, next) => {
     try {
-        const { DeviceId } = req.params
-        let { filters, startDate, endDate } = req.query
+        const { user_id } = req;
+        let { filters, deviceId } = req.query
         const filtersArray = filters?.split(',')
+
         const alerts = await Alert.find(
             {
                 $and: [
-                    { DeviceId },
+                    { UserId: user_id },
+                    deviceId != null ? deviceId != '' ? { DeviceId: deviceId } : {} : {},
                     filters != null ? filters != '' ? filters != 0 ? { AlertType: { $in: filtersArray } } : {} : {} : {},
-                    startDate != null ? startDate != '' ? { createdAt: { $gte: startDate, $lte: endDate } } : {} : {}
                 ]
             }
         ).sort({ createdAt: 1 })

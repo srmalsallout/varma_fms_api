@@ -6,6 +6,12 @@ const schema = new mongoose.Schema({
         ref: 'device',
         required: true
     },
+    SerialNumber: { type: String, required: true },
+    UserId: {
+        type: mongoose.Types.ObjectId,
+        ref: 'user',
+        required: true
+    },
     AlertType: { type: Number, required: true },
     AlertMessage: { type: String, required: true },
     Speed: { type: Number },
