@@ -18,7 +18,7 @@ const getAllAlerts = async (req, res, next) => {
                     filters != null ? filters != '' ? filters != 0 ? { AlertType: { $in: filtersArray } } : {} : {} : {},
                 ]
             }
-        ).sort({ createdAt: 1 })
+        ).populate('DeviceId', 'DeviceName').sort({ createdAt: 1 })
         return res.send({ alerts })
     } catch (error) {
         next(error)
