@@ -1,5 +1,6 @@
 const Device = require("../models/device")
 const Track = require("../models/track")
+const { CustomError } = require("../utils/errors")
 const {
     ObjectId
 } = require('mongoose').Types;
@@ -110,4 +111,18 @@ const getAllDevices = async (req, res, next) => {
     }
 }
 
-module.exports = { addDevice, getDevice, updateDevice, deleteDevice, getAllDevices }
+const getDeviceHistory = async (req, res, next) => {
+    try {
+        const { DeviceId } = req.params;
+        const { StartDate, EndDate } = req.query;
+        if (!DeviceId || !StartDate || !EndDate || StartDate == '' || EndDate == '') {
+            return next(new CustomError('Please Provide a valid Data', 400))
+        }
+        const history = await Track.find({ DeviceId: ObjectId(DeviceId), $and: [{ RecordDateTime: { $gte: StartDate, $lte: EndDate } }] }).sort({ RecordDateTime: 1 })
+        return res.send({ history })
+    } catch (error) {
+        next(error)
+    }
+}
+
+module.exports = { addDevice, getDevice, updateDevice, deleteDevice, getAllDevices, getDeviceHistory }
