@@ -1,5 +1,6 @@
 const Device = require("../models/device")
 const Track = require("../models/track")
+const { CustomError } = require("../utils/errors")
 const {
     ObjectId
 } = require('mongoose').Types;
