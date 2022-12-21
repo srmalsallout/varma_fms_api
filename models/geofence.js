@@ -5,8 +5,8 @@ const schema = new mongoose.Schema({
         type: String,
         required: true
     },
-    GeoType: { type: String, required: true },
-    Speed: { type: Number },
+    GeoType: { type: Number, required: true },
+
     Coordinates: { type: Array, default: [] },
     UserID: {
         type: mongoose.Types.ObjectId,

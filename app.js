@@ -5,6 +5,7 @@ const app = express()
 const users = require("./routes/users")
 const devices = require("./routes/devices")
 const alerts = require("./routes/alerts")
+const geofences = require("./routes/geofence")
 
 
 const { errorHandler } = require("./middlewares/error")
@@ -14,6 +15,7 @@ app.use(express.json())
 app.use("/api/users", users)
 app.use("/api/devices", devices)
 app.use("/api/alerts", alerts)
+app.use("/api/geofences", geofences)
 
 app.use(errorHandler)
 app.get("/", (req, res) => {
