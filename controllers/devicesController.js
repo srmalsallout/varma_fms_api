@@ -114,11 +114,17 @@ const getAllDevices = async (req, res, next) => {
 const getDeviceHistory = async (req, res, next) => {
     try {
         const { DeviceId } = req.params;
-        const { StartDate, EndDate } = req.query;
+        const { StartDate, EndDate, DeviceType } = req.query;
         if (!DeviceId || !StartDate || !EndDate || StartDate == '' || EndDate == '') {
             return next(new CustomError('Please Provide a valid Data', 400))
         }
-        const history = await Track.find({ DeviceId: ObjectId(DeviceId), $and: [{ RecordDateTime: { $gte: StartDate, $lte: EndDate } }] }).populate('DeviceId', 'DeviceName').sort({ RecordDateTime: 1 })
+        const history = await Track.find({
+            DeviceType, DeviceId: ObjectId(DeviceId),
+            $and: [
+                { RecordDateTime: { $gte: StartDate, $lte: EndDate } },
+                DeviceType == '0' ? {} : { DeviceTypeID: +DeviceType }
+            ]
+        }).populate('DeviceId', 'DeviceName').sort({ RecordDateTime: 1 })
         return res.send({ history })
     } catch (error) {
         next(error)
