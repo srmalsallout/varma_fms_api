@@ -28,6 +28,11 @@ const schema = new mongoose.Schema({
     Image: {
         type: String,
     },
+    GeofenceId: {
+        type: mongoose.Types.ObjectId,
+        ref: 'geofence',
+        default: null
+    },
 }, { timestamps: true })
 
 module.exports = mongoose.model('device', schema)
