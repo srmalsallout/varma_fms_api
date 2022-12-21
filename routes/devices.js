@@ -15,8 +15,4 @@ router.route('/:deviceId')
     .put(updateDevice)
     .delete(deleteDevice)
 
-
-
-
-
 module.exports = router
