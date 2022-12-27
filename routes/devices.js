@@ -12,7 +12,7 @@ router.get('/allDevices', getAllDevices)
 router.get('/history/:DeviceId', getDeviceHistory)
 router.route('/:deviceId')
     .get(getDevice)
-    .put(updateDevice)
+    .put(type, updateDevice)
     .delete(deleteDevice)
 
 module.exports = router

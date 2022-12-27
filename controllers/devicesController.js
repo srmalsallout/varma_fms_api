@@ -53,12 +53,18 @@ const getDevice = async (req, res, next) => {
 const updateDevice = async (req, res, next) => {
     try {
         const { deviceId } = req.params;
-        const { DeviceName, SerialNumber, Status, Port } = req.body;
+        const { DeviceName, SerialNumber, Status, Port, Image } = req.body;
         const { user_id } = req;
+        let image = '';
+        if (req.file) {
+            image = await extractUrl(req.file, "varmaDevices");
+        }
+        const findDevice = await Device.findById(deviceId)
         const device = await Device.findOneAndUpdate({ _id: deviceId, UserID: user_id },
-            { DeviceName, SerialNumber, Status, Port }, { new: true, runValidators: true });
+            { DeviceName, SerialNumber, Status, Port, Image: image == '' ? findDevice.Image : image }, { new: true, runValidators: true });
 
         if (device) { return res.status(200).send({ message: "device updated successfully", device }) }
+
         else { throw new CustomError('Error while updating a device', 400) }
     } catch (error) {
         next(error)
