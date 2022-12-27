@@ -36,7 +36,22 @@ const login = async (req, res, next) => {
     }
 }
 
+const getProfile = async (req, res, next) => {
+    try {
+        const { user_id } = req;
+        console.log(user_id);
+        const user = await User.findById(user_id);
+        if (user) {
+            return res.send({ user })
+        }
+        throw new CustomError('user are not Found', 404)
+    } catch (error) {
+        next(error)
+    }
+}
+
 module.exports = {
     signUp,
-    login
+    login,
+    getProfile
 }
