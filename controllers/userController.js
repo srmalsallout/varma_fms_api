@@ -1,16 +1,22 @@
 const User = require("../models/user")
 const { CustomError } = require("../utils/errors")
 const { compare } = require("bcryptjs")
+const { extractUrl } = require("../helpers/deviceHelper")
 
 const signUp = async (req, res, next) => {
     try {
         const { UserName, Email, Password, PhoneNumber, Address, Role } = req.body
+        let Image = '';
+        if (req.file) {
+            Image = await extractUrl(req.file, "varmaUsers");
+        }
         const user = await User.create({
             UserName,
             Password,
             PhoneNumber,
             Address,
             Email,
+            Image,
             Role: Role || "user"
         })
         return res.status(200).json({ user, token: user.generateToken() })
@@ -50,8 +56,30 @@ const getProfile = async (req, res, next) => {
     }
 }
 
+const editProfile = async (req, res, next) => {
+    try {
+        const { user_id } = req
+        const { UserName, PhoneNumber, Address, Email } = req.body
+        const findUser = await User.findById(user_id);
+        let image = '';
+        if (req.file) {
+            image = await extractUrl(req.file, "varmaUsers");
+        }
+        const updatedUser = await User.findByIdAndUpdate(user_id,
+            { UserName, PhoneNumber, Address, Email, Image: image == '' ? findUser.Image : image },
+            { runValidators: true, new: true })
+        if (updatedUser) {
+            return res.status(200).send({ message: "profile updated successfully", updatedUser })
+        }
+        throw new CustomError('Error while updating profile, please try again', 404)
+    } catch (error) {
+        next(error)
+    }
+}
+
 module.exports = {
     signUp,
     login,
-    getProfile
+    getProfile,
+    editProfile
 }
