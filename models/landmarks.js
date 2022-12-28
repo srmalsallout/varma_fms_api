@@ -10,9 +10,9 @@ const schema = new mongoose.Schema({
         ref: 'user',
         required: true
     },
-    Image: { type: Number },
+    Image: { type: String },
     Latitude: { type: Number },
     Longitude: { type: Number }
 }, { timestamps: true })
 
-module.exports = mongoose.model('alert', schema)
+module.exports = mongoose.model('landmark', schema)
