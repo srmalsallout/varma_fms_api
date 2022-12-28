@@ -30,4 +30,39 @@ const getLandmarks = async (req, res, next) => {
     }
 }
 
-module.exports = { addLandmark, getLandmarks }
+const deleteLandmark = async (req, res, next) => {
+    try {
+        const { landId } = req.params;
+        const { user_id } = req
+        const deleteLandmark = await Landmark.findOneAndDelete({ _id: landId, UserId: user_id })
+        if (deleteLandmark) {
+            return res.status(200).send({ message: "landmark deleted successfully" })
+        }
+        throw new CustomError('Error while deleting a landmark', 404)
+    } catch (error) {
+        next(error)
+    }
+}
+
+const updateLandmark = async (req, res, next) => {
+    try {
+        const { landId } = req.params;
+        const { Name, Longitude, Latitude } = req.body
+        let image = '';
+        if (req.file) {
+            image = await extractUrl(req.file, "varmaLandmarks");
+        }
+        const findLandmark = await Landmark.findById(landId)
+        const updatedLandmark = await Landmark.findByIdAndUpdate(landId,
+            { Name, Longitude, Latitude, Image: image == '' ? findLandmark.Image : image },
+            { new: true, runValidators: true })
+        if (updatedLandmark) {
+            return res.status(200).send({ message: "landmark updated successfully", updatedLandmark })
+        }
+        throw new CustomError('Error while updating a landmark', 404)
+    } catch (error) {
+        next(error)
+    }
+}
+
+module.exports = { addLandmark, getLandmarks, deleteLandmark, updateLandmark }
