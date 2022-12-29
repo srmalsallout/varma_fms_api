@@ -6,13 +6,22 @@ const {
     signUp,
     login,
     getProfile,
-    editProfile
+    editProfile,
+    checkPassword,
+    changePassword
 } = require("../controllers/userController")
 let type = uploadPhoto.single('Image');
 
-router.put('/', isAuthenticated, type, editProfile)
+
+router.route('/').put(isAuthenticated, type, editProfile).post(type, signUp)
+router.post('/checkPassword', isAuthenticated, checkPassword)
+router.put('/changePassword', isAuthenticated, changePassword)
+//router.put('/', isAuthenticated, type, editProfile)
 router.get('/profile', isAuthenticated, getProfile)
-router.post('/', type, signUp)
 router.post('/login', login)
+//router.post('/', type, signUp)
+
+
+
 
 module.exports = router
